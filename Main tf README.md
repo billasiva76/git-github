@@ -149,3 +149,13 @@ variable "jfrog_password" {
   type        = string
   sensitive   = true
 }
+
+
+output
+output "neo4j_instance_public_ip" {
+  value = aws_instance.neo4j_ec2.public_ip
+}
+
+output "neo4j_url" {
+  value = "http://${aws_instance.neo4j_ec2.public_ip}:7474"
+}
