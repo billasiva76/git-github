@@ -102,3 +102,50 @@ resource "aws_instance" "neo4j_ec2" {
     Name = "Neo4j-EC2"
   }
 }
+variables
+variable "aws_region" {
+  default = "us-east-1"
+}
+
+variable "vpc_cidr" {
+  default = "10.0.0.0/16"
+}
+
+variable "subnet_cidr" {
+  default = "10.0.1.0/24"
+}
+
+variable "availability_zone" {
+  default = "us-east-1a"
+}
+
+variable "ami_id" {
+  description = "Amazon Linux 2 AMI ID"
+  default     = "ami-0c2b8ca1dad447f8a"  # Update if needed
+}
+
+variable "instance_type" {
+  default = "t3.medium"
+}
+
+variable "key_name" {
+  description = "EC2 key pair name"
+  type        = string
+}
+
+variable "jfrog_url" {
+  description = "Base URL for JFrog Artifactory"
+  type        = string
+}
+
+variable "jfrog_user" {
+  description = "JFrog Artifactory username"
+  type        = string
+  sensitive   = true
+}
+
+variable "jfrog_password" {
+  description = "JFrog Artifactory password or token"
+  type        = string
+  sensitive   = true
+}
