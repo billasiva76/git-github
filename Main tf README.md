@@ -149,3 +149,42 @@ variable "jfrog_password" {
   type        = string
   sensitive   = true
 }
+ci file
+stages:
+  - validate
+  - plan
+  - apply
+
+variables:
+  TF_ROOT: "."
+  TF_VERSION: "1.6.6"
+
+# Image with Terraform CLI installed
+image: hashicorp/terraform:${TF_VERSION}
+
+before_script:
+  - cd $TF_ROOT
+  - terraform --version
+  - terraform init -input=false
+
+validate:
+  stage: validate
+  script:
+    - terraform validate
+
+plan:
+  stage: plan
+  script:
+    - terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - $TF_ROOT/tfplan
+    expire_in: 1 hour
+
+apply:
+  stage: apply
+  script:
+    - terraform apply -auto-approve tfplan
+  dependencies:
+    - plan
+  when: manual
